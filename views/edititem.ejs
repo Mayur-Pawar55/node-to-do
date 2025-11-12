@@ -1,28 +1,99 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Edit Task</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f3f6f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
 
-<html>
+      .container {
+        max-width: 500px;
+        margin: 80px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
 
-    <head>
-        <title>Edit <%- todo %></title>
-        <style>
-            a {
-                text-decoration: none;
-                color: black;
-            }
+      h1 {
+        text-align: center;
+        color: #00796b;
+        margin-bottom: 30px;
+      }
 
-        </style>
-    </head>
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
 
-    <body>
-        <h1>Edit <%- todo %>:</h1>
-        <form action="/todo/edit/<%= todoIdx %>" method="post">
-            <p>
-                <label for="editTodo">Change to:</label>
-                <input type="hidden" name="_method" value="PUT">
-                <input type="text" name="editTodo" id="editTodo" autofocus placeholder="<%- todo %>" />
-                <input type="submit" value="Save" />
-            </p>
-        </form>
-    </body>
+      label {
+        font-weight: bold;
+        font-size: 15px;
+        margin-bottom: 5px;
+      }
 
+      input[type='text'] {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        width: 100%;
+      }
+
+      input[type='submit'] {
+        background-color: #00796b;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      input[type='submit']:hover {
+        background-color: #00695c;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 15px;
+        text-decoration: none;
+        color: #00796b;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+      }
+
+      .back-link:hover {
+        color: #004d40;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Edit Task</h1>
+      <form action="/todo/edit/<%= todoIdx %>?_method=PUT" method="post">
+        <label for="editTodo">Change task:</label>
+        <input
+          type="text"
+          name="editTodo"
+          id="editTodo"
+          value="<%- todo %>"
+          required
+          autofocus
+        />
+        <input type="submit" value="💾 Save Changes" />
+      </form>
+
+      <a href="/todo" class="back-link">← Back to To-Do List</a>
+    </div>
+  </body>
 </html>

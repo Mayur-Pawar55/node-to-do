@@ -1,111 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Todo List APP test</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                color: #333;
-                margin: 0;
-                padding: 0;
-            }
+  <head>
+    <title>My To-Do List</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f3f6f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
 
-            h1 {
-                background-color: #4CAF50;
-                color: white;
-                margin: 0;
-                padding: 20px;
-                text-align: center;
-            }
+      .container {
+        max-width: 700px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
 
-            ul {
-                list-style: none;
-                padding: 0;
-            }
+      h2 {
+        color: #00796b;
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-            ul li {
-                background: #fff;
-                border: 1px solid #ddd;
-                margin-bottom: 10px;
-                padding: 10px;
-                position: relative;
-            }
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
 
-            ul li a {
-                color: #333;
-                text-decoration: none;
-                font-weight: bold;
-            }
+      #searchBox {
+        width: 60%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
 
-            ul li a:hover {
-                color: #4CAF50;
-            }
+      button.clear-btn {
+        background-color: #e74c3c;
+        border: none;
+        padding: 10px 15px;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+      }
 
-            .delete-btn {
-                color: red;
-                position: absolute;
-                right: 10px;
-                top: 10px;
-            }
+      button.clear-btn:hover {
+        background-color: #c0392b;
+      }
 
-            .edit-btn {
-                color: #FFC107;
-                position: absolute;
-                right: 40px;
-                top: 10px;
-            }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 15px;
+      }
 
-            form {
-                background: #fff;
-                padding: 20px;
-                margin-top: 20px;
-            }
+      li {
+        background: #fafafa;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        padding: 15px 20px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
 
-            label {
-                display: block;
-                margin-bottom: 10px;
-            }
+      li:hover {
+        background: #f0f0f0;
+        transform: translateY(-2px);
+      }
 
-            input[type="text"] {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-            }
+      .todo-text.completed {
+        text-decoration: line-through;
+        color: #999;
+      }
 
-            input[type="submit"] {
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                cursor: pointer;
-            }
+      .priority {
+        font-size: 13px;
+        border-radius: 5px;
+        padding: 3px 7px;
+        margin-left: 10px;
+      }
 
-            input[type="submit"]:hover {
-                background-color: #45a049;
-            }
-        </style>
-    </head>
+      .high {
+        background-color: #ff4d4d;
+        color: white;
+      }
 
-    <body>
-        <h1>Hello Junoon Batch 8 (Jenkins), Write your plan on Learning Jenkins</h1>
-        <ul>
-            <% todolist.forEach(function(todo, index) { %>
-            <li>
-                <a href="/todo/delete/<%= index %>" class="delete-btn">✘</a>
-                <a href="/todo/<%= index %>" class="edit-btn">✎</a>
-                <%- todo %>
-            </li>
-            <% }); %>
-        </ul>
+      .medium {
+        background-color: #ffc107;
+        color: white;
+      }
 
-        <form action="/todo/add/" method="post">
-            <p>
-                <label for="newtodo">What should I do?</label>
-                <input type="text" name="newtodo" id="newtodo" autofocus />
-                <input type="submit" value="Add" />
-            </p>
+      .low {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .actions a {
+        text-decoration: none;
+        font-size: 18px;
+        transition: transform 0.2s ease;
+      }
+
+      .actions a:hover {
+        transform: scale(1.2);
+      }
+
+      .delete-btn {
+        color: #e74c3c;
+      }
+
+      .edit-btn {
+        color: #f39c12;
+      }
+
+      .complete-btn {
+        color: #2ecc71;
+      }
+
+      form {
+        margin-top: 25px;
+        text-align: center;
+      }
+
+      input[type='text'],
+      select {
+        width: 60%;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      select {
+        width: 25%;
+        margin-left: 5px;
+      }
+
+      input[type='submit'] {
+        padding: 12px 20px;
+        background-color: #00796b;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-left: 5px;
+      }
+
+      input[type='submit']:hover {
+        background-color: #00695c;
+      }
+
+      .stats {
+        margin-top: 20px;
+        text-align: center;
+        color: #555;
+        font-size: 14px;
+      }
+
+      @media (max-width: 600px) {
+        .top-bar {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        input[type='text'],
+        select {
+          width: 100%;
+        }
+
+        input[type='submit'] {
+          width: 100%;
+          margin-top: 10px;
+        }
+      }
+    </style>
+
+    <script>
+      function searchTasks() {
+        const input = document.getElementById('searchBox').value.toLowerCase();
+        const tasks = document.querySelectorAll('li');
+        tasks.forEach((task) => {
+          const text = task.textContent.toLowerCase();
+          task.style.display = text.includes(input) ? 'flex' : 'none';
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>📝 My To-Do List</h2>
+
+      <div class="top-bar">
+        <input
+          type="text"
+          id="searchBox"
+          placeholder="Search tasks..."
+          onkeyup="searchTasks()"
+        />
+        <form action="/todo/clearCompleted" method="post" style="margin: 0">
+          <button class="clear-btn">Clear Completed</button>
         </form>
-    </body>
+      </div>
+
+      <ul>
+        <% todolist.forEach(function(todo, index) { %>
+        <li>
+          <div>
+            <span class="todo-text <%= todo.completed ? 'completed' : '' %>">
+              <%= todo.text %>
+            </span>
+            <% if(todo.priority) { %>
+            <span class="priority <%= todo.priority %>"><%= todo.priority %></span>
+            <% } %>
+          </div>
+          <div class="actions">
+            <a
+              href="/todo/complete/<%= index %>"
+              class="complete-btn"
+              title="Mark Complete"
+              >✔</a
+            >
+            <a href="/todo/edit/<%= index %>" class="edit-btn" title="Edit">✎</a>
+            <a href="/todo/delete/<%= index %>" class="delete-btn" title="Delete"
+              >✘</a
+            >
+          </div>
+        </li>
+        <% }); %>
+      </ul>
+
+      <form action="/todo/add" method="post">
+        <input
+          type="text"
+          name="newtodo"
+          placeholder="Add a new task..."
+          required
+        />
+        <select name="priority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <input type="submit" value="Add Task" />
+      </form>
+
+      <div class="stats">
+        ✅ Completed: <%= todolist.filter(t => t.completed).length %> |
+        ⏳ Pending: <%= todolist.filter(t => !t.completed).length %> |
+        📋 Total: <%= todolist.length %>
+      </div>
+    </div>
+  </body>
 </html>
